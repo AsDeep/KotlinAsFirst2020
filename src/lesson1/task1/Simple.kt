@@ -52,9 +52,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 /**
  * Пример главной функции
  */
-fun main() {
-    println("seconds:", seconds(8,20,35))
-}
+fun main() {}
 
 /**
  * Тривиальная (3 балла).
