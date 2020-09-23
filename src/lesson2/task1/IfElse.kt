@@ -68,7 +68,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = when {
+    (age % 100 >= 4) && (age % 100 < 21) -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    age % 10 < 5 -> "$age года"
+    else -> "$age лет"
+}
 
 /**
  * Простая (2 балла)
@@ -81,7 +86,21 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    var halfWay = (t1 * v1 + t2 * v2 + t3 * v3) * 1.0 / 2
+    var halfWayTime = 0.0
+    if (t1 * v1 >= halfWay / 2) {
+        halfWayTime = halfWay / v1
+    } else if (t1 * v1 + t2 * v2 >= halfWay) {
+        halfWay -= t1 * v1
+        halfWayTime = t1 + halfWay / v2
+    } else {
+        halfWay -= t2 * v2 + t1 * v1
+        halfWayTime = t1 + t2 + halfWay / v3
+    }
+    return halfWayTime
+
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +115,19 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    var threat = 0
+
+    if (rookX1 == kingX) threat += 1
+    else if (rookY1 == kingY) threat += 1
+
+    if (rookX2 == kingX) threat += 2
+    else if (rookY2 == kingY) threat += 2
+
+    return threat
+
+
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +143,16 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    var threat = 0
+
+    if (rookX == kingX) threat += 1
+    else if (rookY == kingY) threat += 1
+
+    if (abs(bishopY - kingY) == abs(bishopX - kingX)) threat += 2
+
+    return threat
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +162,26 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b > c) && (a + c > b) && (b + c > a)) {
+        var k = 0.0
+        var c = c
+        var a = a
+        var b = b
+        if ((a > b) && (a > c)) {
+            k = c
+            c = a
+            a = k
+        } else if ((b > a) && (b > c)) {
+            k = c
+            c = b
+            b = k
+        }
+        if (a * a + b * b == c * c) return 1
+        if (a * a + b * b > c * c) return 0
+        else return 2
+    } else return -1
+}
 
 /**
  * Средняя (3 балла)
