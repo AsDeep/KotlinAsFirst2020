@@ -149,7 +149,7 @@ fun rookOrBishopThreatens(
     if (rookX == kingX) threat += 1
     else if (rookY == kingY) threat += 1
 
-    if (abs(bishopY - kingY) == abs(bishopX - kingX)) threat += 2
+    if (((bishopY - kingY) == (bishopX - kingX))||(0-(bishopY - kingY) == (bishopX - kingX))) threat += 2
 
     return threat
 }
