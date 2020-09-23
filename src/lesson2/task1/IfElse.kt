@@ -71,7 +71,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String = when {
     (age % 100 > 4) && (age % 100 < 21) -> "$age лет"
     age % 10 == 1 -> "$age год"
-    age % 10 < 5 -> "$age года"
+    (age % 10 < 5) && (age % 10 > 0) -> "$age года"
     else -> "$age лет"
 }
 
@@ -149,7 +149,7 @@ fun rookOrBishopThreatens(
     if (rookX == kingX) threat += 1
     else if (rookY == kingY) threat += 1
 
-    if (((bishopY - kingY) == (bishopX - kingX))||(0-(bishopY - kingY) == (bishopX - kingX))) threat += 2
+    if (((bishopY - kingY) == (bishopX - kingX)) || (0 - (bishopY - kingY) == (bishopX - kingX))) threat += 2
 
     return threat
 }
