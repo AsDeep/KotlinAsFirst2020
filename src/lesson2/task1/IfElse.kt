@@ -89,7 +89,7 @@ fun timeForHalfWay(
 ): Double {
     var halfWay = (t1 * v1 + t2 * v2 + t3 * v3) * 1.0 / 2
     var halfWayTime = 0.0
-    if (t1 * v1 >= halfWay / 2) {
+    if (t1 * v1 >= halfWay) {
         halfWayTime = halfWay / v1
     } else if (t1 * v1 + t2 * v2 >= halfWay) {
         halfWay -= t1 * v1
