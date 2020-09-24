@@ -162,8 +162,12 @@ fun rookOrBishopThreatens(
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b > c && a + c > b && b + c > a) {
         val c1 = max(max(a, b), c)
-        val b1 = max(min(a, c), b)
-        val a1 = min(min(c, b), a)
+        val b1 = min(min(a, b), c)
+        val a1 = when {
+            b1 == a && c1 == c -> b
+            b1 == b && c1 == c -> a
+            else -> c
+        }
 
         if (a1 * a1 + b1 * b1 == c1 * c1) return 1
         if (a1 * a1 + b1 * b1 < c1 * c1) return 2
