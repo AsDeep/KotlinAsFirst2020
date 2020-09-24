@@ -5,6 +5,8 @@ package lesson2.task1
 import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
+import kotlin.math.min
+import kotlin.math.abs
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -118,14 +120,10 @@ fun whichRookThreatens(
 ): Int {
     var threat = 0
 
-    if (rookX1 == kingX) threat += 1
-    else if (rookY1 == kingY) threat += 1
-
-    if (rookX2 == kingX) threat += 2
-    else if (rookY2 == kingY) threat += 2
+    if (rookX1 == kingX || rookY1 == kingY) threat += 1
+    if (rookX2 == kingX || rookY2 == kingY) threat += 2
 
     return threat
-
 
 }
 
@@ -146,10 +144,9 @@ fun rookOrBishopThreatens(
 ): Int {
     var threat = 0
 
-    if (rookX == kingX) threat += 1
-    else if (rookY == kingY) threat += 1
+    if (rookX == kingX || rookY == kingY) threat += 1
 
-    if (((bishopY - kingY) == (bishopX - kingX)) || (0 - (bishopY - kingY) == (bishopX - kingX))) threat += 2
+    if (abs(bishopY - kingY) == abs(bishopX - kingX)) threat += 2
 
     return threat
 }
@@ -163,24 +160,16 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b > c) && (a + c > b) && (b + c > a)) {
-        var k = 0.0
-        var c = c
-        var a = a
-        var b = b
-        if ((a > b) && (a > c)) {
-            k = c
-            c = a
-            a = k
-        } else if ((b > a) && (b > c)) {
-            k = c
-            c = b
-            b = k
-        }
-        if (a * a + b * b == c * c) return 1
-        if (a * a + b * b > c * c) return 0
-        else return 2
-    } else return -1
+    if (a + b > c && a + c > b && b + c > a) {
+        val c1 = max(max(a, b), c)
+        val b1 = min(max(a, b), c)
+        val a1 = min(min(a, b), c)
+
+        if (a1 * a1 + b1 * b1 == c1 * c1) return 1
+        if (a1 * a1 + b1 * b1 < c1 * c1) return 2
+        return 0
+    }
+    return -1
 }
 
 /**
