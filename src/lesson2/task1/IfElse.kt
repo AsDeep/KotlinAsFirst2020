@@ -89,17 +89,21 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    var halfWay = (t1 * v1 + t2 * v2 + t3 * v3) * 1.0 / 2
+    var halfWay = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     var halfWayTime = 0.0
-    if (t1 * v1 >= halfWay) {
-        halfWayTime = halfWay / v1
-    } else if (t1 * v1 + t2 * v2 >= halfWay) {
-        halfWay -= t1 * v1
-        halfWayTime = t1 + halfWay / v2
-    } else {
-        halfWay -= t2 * v2 + t1 * v1
-        halfWayTime = t1 + t2 + halfWay / v3
+    when {
+        t1 * v1 >= halfWay -> halfWayTime = halfWay / v1
+
+        t1 * v1 + t2 * v2 >= halfWay -> {
+            halfWay -= t1 * v1
+            halfWayTime = t1 + halfWay / v2
+        }
+        else -> {
+            halfWay -= t2 * v2 + t1 * v1
+            halfWayTime = t1 + t2 + halfWay / v3
+        }
     }
+
     return halfWayTime
 
 }
@@ -164,16 +168,17 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         val c1 = max(max(a, b), c)
         val b1 = min(min(a, b), c)
 
-        val a1 = when {
-            b1 == a -> when(c1) {
+        val a1 = when (b1) {
+
+            a -> when (c1) {
                 c -> b
                 else -> c
             }
-            b1 == b -> when(c1) {
+            b -> when (c1) {
                 c -> a
                 else -> c
             }
-            b1 == c -> when(c1) {
+            c -> when (c1) {
                 a -> b
                 else -> a
             }
