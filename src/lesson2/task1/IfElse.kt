@@ -165,19 +165,19 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         val b1 = min(min(a, b), c)
 
         val a1 = when {
-            b1 == a -> when {
-                c1 == c -> b
+            b1 == a -> when(c1) {
+                c -> b
                 else -> c
             }
-            b1 == b -> when {
-                c1 == c -> a
+            b1 == b -> when(c1) {
+                c -> a
                 else -> c
             }
-            b1 == c -> when {
-                c1 == a -> b
+            b1 == c -> when(c1) {
+                a -> b
                 else -> a
             }
-            else -> -1.0
+            else -> 0.0
         }
 
         if (a1 * a1 + b1 * b1 == c1 * c1) return 1
