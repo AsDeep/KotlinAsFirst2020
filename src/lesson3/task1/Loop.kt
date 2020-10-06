@@ -72,30 +72,54 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    var n = n
+    var k = 0
+    do {
+        k += 1
+        n /= 10
+    } while (n > 0)
+    return k
+}
 /**
  * Простая (2 балла)
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var res = 1
+    for (i in 3..n) {
+        res = fib(i-2)+fib(i-1)
+    }
+    return res
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
-
+fun minDivisor(n: Int): Int {
+    var k = 1
+    do {
+        k +=1
+    } while (n % k != 0)
+    return k
+}
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = n
+    do {
+        k -= 1
 
+    } while (n % k != 0)
+    return k
+}
 /**
  * Простая (2 балла)
  *
@@ -112,7 +136,20 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var k = 0
+    var x = x
+    while (x != 1) {
+        k += 1
+        if (x % 2 == 0) {
+            x /= 2
+        } else {
+            x = 3 * x + 1
+        }
+    }
+    return k
+
+}
 
 /**
  * Средняя (3 балла)
@@ -120,8 +157,15 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
-
+fun lcm(m: Int, n: Int): Int {
+    var k = minOf(m, n)
+    if (m != n) {
+        do {
+            k += 1
+        } while (k % m != 0 || k % n != 0)
+    }
+    return k
+}
 /**
  * Средняя (3 балла)
  *
