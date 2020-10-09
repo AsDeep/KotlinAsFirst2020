@@ -2,7 +2,8 @@
 
 package lesson3.task1
 
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -81,6 +82,7 @@ fun digitNumber(n: Int): Int {
     } while (n > 0)
     return k
 }
+
 /**
  * Простая (2 балла)
  *
@@ -89,8 +91,13 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     var res = 1
+    var k = 1
+    var x = 1
     for (i in 3..n) {
-        res = fib(i-2)+fib(i-1)
+        x = k
+        k = res
+        res = k + x
+
     }
     return res
 }
@@ -101,12 +108,12 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 1
-    do {
-        k +=1
-    } while (n % k != 0)
-    return k
+    for (i in 1..sqrt(n * 1.0).toInt() + 1) {
+        if (n % i == 0) return i
+    }
+    return n
 }
+
 /**
  * Простая (2 балла)
  *
@@ -114,12 +121,14 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k = n
+
     do {
         k -= 1
+    } while (n % k != 0 && k > minDivisor(n))
 
-    } while (n % k != 0)
     return k
 }
+
 /**
  * Простая (2 балла)
  *
@@ -159,13 +168,18 @@ fun collatzSteps(x: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = minOf(m, n)
-    if (m != n) {
-        do {
-            k += 1
-        } while (k % m != 0 || k % n != 0)
+    var x = maxOf(m, n)
+    val pr = k * x
+    var l = x % k
+    while (x % k != 0) {
+        l = k
+        k = x % k
+        x = l
     }
-    return k
+    return pr / k
+
 }
+
 /**
  * Средняя (3 балла)
  *
@@ -223,7 +237,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var sin = x
+    var i = 3
+    var mn = -1.0
+    var sum: Double
+    do {
+        sum = mn * (x.pow(i) / factorial(i))
+        sin += sum
+        mn *= -1
+        i += 2
+    } while (abs(sum) >= eps)
+    return sin
+}
+
 
 /**
  * Средняя (4 балла)
@@ -234,7 +261,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = sin(PI / 2 - x % (PI * 2.0),eps)
 
 /**
  * Сложная (4 балла)
