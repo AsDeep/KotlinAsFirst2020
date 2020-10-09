@@ -4,7 +4,8 @@ package lesson3.task1
 
 import kotlin.math.abs
 import kotlin.math.sqrt
-
+import kotlin.math.PI
+import kotlin.math.pow
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
