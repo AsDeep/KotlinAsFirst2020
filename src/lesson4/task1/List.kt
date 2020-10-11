@@ -220,6 +220,11 @@ fun factorize(n: Int): List<Int> {
             mn.add(i)
             n /= i
         }
+        if (n % 2 == 0) {
+            mn.add(2)
+            n /= 2
+
+        }
         i += 2
     }
     if (n != 1) {
