@@ -122,11 +122,10 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k = n
-
+    if (k == 1 || isPrime(n)) return n
     do {
         k -= 1
     } while (n % k != 0 && k > minDivisor(n))
-    if (k == 1) return n
     return k
 }
 
