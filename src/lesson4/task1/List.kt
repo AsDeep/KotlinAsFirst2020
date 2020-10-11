@@ -212,7 +212,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  */
 fun factorize(n: Int): List<Int> {
     var n = n
-    var i = 2
+    var i = 3
     val mn = mutableListOf<Int>()
 
     while (!isPrime(n)) {
@@ -220,7 +220,7 @@ fun factorize(n: Int): List<Int> {
             mn.add(i)
             n /= i
         }
-        i += 1
+        i += 2
     }
     mn.add(n)
     mn.sort()
