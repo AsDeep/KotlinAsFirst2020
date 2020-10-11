@@ -215,14 +215,16 @@ fun factorize(n: Int): List<Int> {
     var i = 3
     val mn = mutableListOf<Int>()
 
-    while (!isPrime(n)) {
-        if (n % i == 0 && isPrime(i)) {
+    while (!isPrime(n) && (n > 1)) {
+        while (n % i == 0 && isPrime(i)) {
             mn.add(i)
             n /= i
         }
         i += 2
     }
-    mn.add(n)
+    if (n != 1) {
+        mn.add(n)
+    }
     mn.sort()
     return mn
 }
