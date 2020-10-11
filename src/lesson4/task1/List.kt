@@ -125,7 +125,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in v) {
+    for (i in 0 until v.size - 1) {
         sum += sqr(v[i])
     }
 
@@ -237,7 +237,7 @@ fun factorize(n: Int): List<Int> {
 fun factorizeToString(n: Int): String {
     var res = ""
     val factored = factorize(n)
-    res+=factored[0]
+    res += factored[0]
     for (i in 1..factored.size - 1) {
         res += "*" + factored[i].toString()
 
@@ -282,13 +282,14 @@ fun convertToString(n: Int, base: Int): String {
     var result = ""
     for (i in converted) {
         result += when {
-            i>9 -> (87+i).toChar()
+            i > 9 -> (87 + i).toChar()
             else -> i
         }
     }
     return result
 
 }
+
 /**
  * Средняя (3 балла)
  *
