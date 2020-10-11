@@ -125,7 +125,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0 until v.size - 1) {
+    for (i in 0 until v.size) {
         sum += sqr(v[i])
     }
 
@@ -256,7 +256,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var n = n
     val result = mutableListOf<Int>()
 
-    while (n > base) {
+    while (n >= base) {
         result.add(n % base)
         n /= base
     }
