@@ -139,9 +139,10 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double = when {
-    list.size > 0 -> list.sum() / list.size
+    list.isNotEmpty() -> list.sum() / list.size
     else -> 0.0
 }
+
 
 /**
  * Средняя (3 балла)
@@ -168,11 +169,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 
 fun times(a: List<Int>, b: List<Int>): Int {
-    var sum = 0
-    for (i in 0 until a.size) {
-        sum += a[i] * b[i]
-    }
-    return sum
+    val result = a.zip(b) { a, b -> a * b }
+
+    return result.sum()
 }
 
 /**
@@ -215,12 +214,12 @@ fun factorize(n: Int): List<Int> {
     var i = 3
     val mn = mutableListOf<Int>()
 
-    while (n % 2 == 0) {
-        mn.add(2)
-        n /= 2
-    }
     while (!isPrime(n) && (n > 1)) {
-        while (n % i == 0 && isPrime(i)) {
+        while (n % 2 == 0) {
+            mn.add(2)
+            n /= 2
+        }
+        while (n % i == 0) {
             mn.add(i)
             n /= i
         }
@@ -229,9 +228,9 @@ fun factorize(n: Int): List<Int> {
     if (n != 1) {
         mn.add(n)
     }
-    mn.sort()
     return mn
 }
+
 
 /**
  * Сложная (4 балла)
@@ -240,16 +239,8 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var res = ""
-    val factored = factorize(n)
-    res += factored[0]
-    for (i in 1..factored.size - 1) {
-        res += "*" + factored[i].toString()
-
-    }
-    return res
-}
+fun factorizeToString(n: Int): String =
+    factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -285,14 +276,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val converted = convert(n, base)
-    var result = ""
-    for (i in converted) {
-        result += when {
-            i > 9 -> (87 + i).toChar()
-            else -> i
+
+    return converted.joinToString(separator = "") {
+        when {
+            it > 9 -> (87 + it).toChar().toString()
+            else -> it.toString()
         }
     }
-    return result
+
 
 }
 

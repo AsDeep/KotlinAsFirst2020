@@ -6,6 +6,7 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 import kotlin.math.PI
 import kotlin.math.pow
+
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
@@ -120,14 +121,8 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var k = n
-    if (k == 1 || isPrime(n)) return 1
-    do {
-        k -= 1
-    } while (n % k != 0 && k > minDivisor(n))
-    return k
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
+
 
 /**
  * Простая (2 балла)
@@ -239,6 +234,14 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var sin = x
+
+    while (abs(sin) >= 2 * PI) {
+        if (sin > 0) {
+            sin -= 2 * PI
+        } else sin += 2 * PI
+    }
+
+    val x = sin
     var i = 3
     var mn = -1.0
     var sum: Double
@@ -261,7 +264,7 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = sin(PI / 2 - x % (PI * 2.0),eps)
+fun cos(x: Double, eps: Double): Double = sin(PI / 2 - x % (PI * 2.0), eps)
 
 /**
  * Сложная (4 балла)
