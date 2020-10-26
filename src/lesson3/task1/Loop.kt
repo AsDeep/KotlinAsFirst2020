@@ -234,8 +234,10 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var sin = x
-    val x = sin % (2 * PI)
 
+    sin = sin % (2 * PI)
+
+    val x = sin
     var i = 3
     var mn = -1.0
     var sum: Double
