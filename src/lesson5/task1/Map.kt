@@ -123,7 +123,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for (key in a.keys) {
         if (!b.containsKey(key)) return false
 
-        if (!b[key] == (a[key]))
+        if (b[key] != (a[key]))
             return false
     }
     return true
