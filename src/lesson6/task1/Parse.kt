@@ -94,13 +94,15 @@ fun dateStrToDigit(str: String): String {
     )
     val res = str.split(' ').toList()
 
+    if (res.size != 3){
+        return ""
+    }
+
     if (digitCheck(res[0]) == null || digitCheck(res[2]) == null || res[1] !in months) {
         return ""
     }
 
-    if (res.size != 3){
-        return ""
-    }
+
 
     val day = res[0].toInt()
     val month = months.getValue(res[1])
