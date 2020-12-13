@@ -63,9 +63,17 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
-}
+    File(outputName).bufferedWriter().use {
+        for (line in File(inputName).readLines()) {
+            if (line.isEmpty() || !line.startsWith('_')) {
+                it.write(line)
+                it.newLine()
+            }
+        }
+        it.close()
 
+    }
+}
 /**
  * Средняя (14 баллов)
  *
@@ -282,8 +290,89 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val unmarked = File(inputName).readText().replace("\r", "").trim('\n')
+
+    val tagList = mutableListOf("<html><body>", "<p>")
+    val str = StringBuilder()
+    val tagStack = mutableListOf<String>()
+
+    var i = 0
+    while (i < unmarked.length) {
+        if (unmarked[i] == '~' || unmarked[i] == '*') {
+            tagList.add(str.toString())
+            str.clear()
+            when (unmarked[i]) {
+                '~' -> {
+                    if (i + 1 < unmarked.length && unmarked[i + 1] == '~') {
+                        if (tagStack.lastOrNull() == "<s>") {
+                            tagStack.removeLast()
+                            tagList.add("</s>")
+                        } else {
+                            tagStack.add("<s>")
+                            tagList.add("<s>")
+                        }
+                        i++
+                    } else
+                        str.append(unmarked[i])
+                }
+                '*' -> {
+                    if (i + 1 < unmarked.length && unmarked[i + 1] == '*') {
+                        if (tagStack.lastOrNull() == "<b>") {
+                            tagStack.removeLast()
+                            tagList.add("</b>")
+                        } else {
+                            tagStack.add("<b>")
+                            tagList.add("<b>")
+                        }
+                        i++
+                    } else {
+                        if (tagStack.lastOrNull() == "<i>") {
+                            tagStack.removeLast()
+                            tagList.add("</i>")
+                        } else {
+                            tagStack.add("<i>")
+                            tagList.add("<i>")
+                        }
+                    }
+                }
+            }
+        } else {
+            if (unmarked[i] == '\n') {
+                var j = i + 1
+                while (j < unmarked.length && (unmarked[j] == ' ' || unmarked[j] == '\t'))
+                    j++
+                if (j < unmarked.length && unmarked[i] == '\n' && unmarked[j] == '\n') {
+                    tagList.add(str.toString())
+                    str.clear()
+                    tagList.add("</p>")
+                    tagList.add("<p>")
+                    var g = j
+                    while (g < unmarked.length && (unmarked[g] == '\n' || unmarked[g] == '\t' || unmarked[g] == ' ')) {
+                        if (unmarked[g] == '\n') {
+                            j = g
+                        }
+                        g++
+                    }
+                    i = j
+                } else {
+                    str.append(unmarked[i])
+                }
+            } else {
+                str.append(unmarked[i])
+            }
+        }
+        i++
+    }
+
+    if (str.toString() != "") {
+        tagList.add(str.toString())
+    }
+
+    tagList.add("</p></body></html>")
+    val res = tagList.joinToString(separator = "")
+    File(outputName).bufferedWriter().use { it.write(res) }
 }
+
 
 /**
  * Сложная (23 балла)
