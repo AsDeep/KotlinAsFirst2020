@@ -202,7 +202,21 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val check = setOf('+', '%', '-')
+    val parts = jumps.split(' ')
+    if (parts.size % 2 != 0) return -1
+    var ans = -1
+    for (i in parts.indices step 2) {
+        val tmp = parts[i].toIntOrNull() ?: return -1
+        if (!parts[i + 1].all { it in check }) {
+            return -1
+        }
+        if ('+' in parts[i + 1])
+            ans = max(ans, tmp)
+    }
+    return ans
+}
 
 /**
  * Сложная (6 баллов)
