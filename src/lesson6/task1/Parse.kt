@@ -230,8 +230,27 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val splitExpression = expression.split(" ")
+    var sign = 1
+    var lastIsDigit = false
+    var result = 0
+    if (splitExpression.size < 3) throw IllegalArgumentException()
 
+    for (i in splitExpression) {
+        if (i.toIntOrNull() != null && i.toInt() > 0) {
+            result += i.toInt() * sign
+            lastIsDigit = true
+        } else if (i == "+" || i == "-" && lastIsDigit) {
+            sign = if (i == "-") -1
+            else 1
+            lastIsDigit = false
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+    return result
+}
 /**
  * Сложная (6 баллов)
  *
