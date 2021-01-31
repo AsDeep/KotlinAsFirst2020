@@ -238,7 +238,7 @@ fun plusMinus(expression: String): Int {
     var result = 0
 
     for (i in splitExpression) {
-        if (i.toIntOrNull() != null && i.toInt() >= 0) {
+        if (i.toIntOrNull() != null && i.toInt() >= 0 && !lastIsDigit) {
             result += i.toInt() * sign
             lastIsDigit = true
         } else if ((i == "+" || i == "-") && lastIsDigit) {
