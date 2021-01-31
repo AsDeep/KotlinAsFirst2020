@@ -139,23 +139,26 @@ fun centerFile(inputName: String, outputName: String) {
     val lines = mutableListOf<String>()
     var longestLine = 0
     for (i in File(inputName).readLines()) {
-        lines.add(i.trim())
+        lines.add(i.trim(' '))
     }
     for (i in lines) {
-        if (longestLine > i.length) {
+        if (longestLine == 0) {
             longestLine = i.length
+        } else {
+            if (i.length > longestLine) {
+                longestLine = i.length
+            }
         }
     }
 
     for (line in lines) {
-        writer.write(" ".repeat((longestLine - line.length) / 2))
+        writer.write(" ".repeat(abs(longestLine - line.length) / 2))
         writer.write(line)
         writer.newLine()
     }
 
     writer.close()
 }
-
 /**
  * Сложная (20 баллов)
  *
