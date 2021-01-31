@@ -233,7 +233,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val splitExpression = expression.split(" ")
-    if (splitExpression.size % 2 == 0) throw IllegalArgumentException()
+    if (splitExpression.size % 2 == 0 || splitExpression.size == 0) throw IllegalArgumentException()
     if (!splitExpression[0][0].isDigit()) throw IllegalArgumentException()
 
     var result = splitExpression[0].toIntOrNull() ?: throw IllegalArgumentException()
