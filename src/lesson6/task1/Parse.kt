@@ -95,14 +95,13 @@ fun dateStrToDigit(str: String): String {
     )
     val res = str.split(' ').toList()
 
-    if (res.size != 3){
+    if (res.size != 3) {
         return ""
     }
 
     if (digitCheck(res[0]) == null || digitCheck(res[2]) == null || res[1] !in months) {
         return ""
     }
-
 
 
     val day = res[0].toInt()
@@ -115,6 +114,7 @@ fun dateStrToDigit(str: String): String {
     val m = twoDigitStr(month)
     return "$d.$m.${res[2]}"
 }
+
 /**
  * Средняя (4 балла)
  *
@@ -159,6 +159,7 @@ fun dateDigitToStr(digital: String): String {
     if (m == null) return ""
     return "$d $m ${res[2]}"
 }
+
 /**
  * Средняя (4 балла)
  *
@@ -235,13 +236,12 @@ fun plusMinus(expression: String): Int {
     var sign = 1
     var lastIsDigit = false
     var result = 0
-    if (splitExpression.size < 3) throw IllegalArgumentException()
 
     for (i in splitExpression) {
         if (i.toIntOrNull() != null && i.toInt() > 0) {
             result += i.toInt() * sign
             lastIsDigit = true
-        } else if (i == "+" || i == "-" && lastIsDigit) {
+        } else if ((i == "+" || i == "-") && lastIsDigit) {
             sign = if (i == "-") -1
             else 1
             lastIsDigit = false
@@ -251,6 +251,7 @@ fun plusMinus(expression: String): Int {
     }
     return result
 }
+
 /**
  * Сложная (6 баллов)
  *
@@ -271,6 +272,7 @@ fun firstDuplicateIndex(str: String): Int {
     }
     return -1
 }
+
 /**
  * Сложная (6 баллов)
  *
