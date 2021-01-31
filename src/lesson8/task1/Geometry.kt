@@ -7,7 +7,6 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
-import kotlin.math.max
 
 // Урок 8: простые классы
 // Максимальное количество баллов = 40 (без очень трудных задач = 11)
@@ -83,14 +82,7 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double {
-        val otherCenter = other.center
-        val otherRadius = other.radius
-        if (center.distance(otherCenter) <= max(radius, otherRadius)) {
-            return 0.0
-        }
-        return center.distance(otherCenter) - radius - otherRadius
-    }
+    fun distance(other: Circle): Double = TODO()
 
     /**
      * Тривиальная (1 балл)
