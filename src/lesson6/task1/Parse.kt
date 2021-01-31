@@ -236,10 +236,10 @@ fun plusMinus(expression: String): Int {
     if (splitExpression.size % 2 == 0) throw IllegalArgumentException()
 
     var result = splitExpression[0].toIntOrNull() ?: throw IllegalArgumentException()
-    if (result < 0) throw IllegalArgumentException()
+    if (result <= 0) throw IllegalArgumentException()
 
     for (i in 2 until splitExpression.size step 2) {
-        if (splitExpression[i].toIntOrNull() != null && splitExpression[i].toInt() >= 0) {
+        if (splitExpression[i].toIntOrNull() != null && splitExpression[i].toInt() > 0) {
             result += when (splitExpression[i - 1]) {
                 "+" -> splitExpression[i].toInt()
                 "-" -> splitExpression[i].toInt() * -1
