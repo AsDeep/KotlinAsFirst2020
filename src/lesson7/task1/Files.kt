@@ -139,7 +139,7 @@ fun centerFile(inputName: String, outputName: String) {
     val lines = mutableListOf<String>()
     var longestLine = 0
     for (i in File(inputName).readLines()) {
-        lines.add(i.trim(' '))
+        lines.add(i.trim())
     }
     for (i in lines) {
         if (longestLine > i.length) {
