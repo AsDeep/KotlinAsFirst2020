@@ -290,26 +290,25 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     var products = description.split("; ")
-    if (products.isEmpty()) return ""
+    if (products.isEmpty())  return ""
     var price: Double
-    var maxProduct = "Курица"
+    var maxProduct = ""
     var maxPrice = 0.0
     for (i in products) {
-
-        if (i.split(" ").size != 2) return ""
+        if (i.split(" ").size != 2)  return ""
         else {
-            price = i.split(" ")[1].toDoubleOrNull() ?: return ""
-            if (price < 0) return ""
-            if (price > maxPrice) {
+            price = i.split(" ")[1].toDoubleOrNull() ?:  return ""
+            if (price < 0)  return ""
+            if (price >= maxPrice) {
                 maxPrice = price
                 maxProduct = i.split(" ")[0]
             }
-
         }
 
     }
     return maxProduct
 }
+
 /**
  * Сложная (6 баллов)
  *
