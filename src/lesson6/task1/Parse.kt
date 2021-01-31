@@ -292,9 +292,10 @@ fun mostExpensive(description: String): String {
     var products = description.split("; ")
     if (products.isEmpty()) return ""
     var price: Double
-    var maxProduct = ""
+    var maxProduct = "Курица"
     var maxPrice = 0.0
     for (i in products) {
+
         if (i.split(" ").size != 2) return ""
         else {
             price = i.split(" ")[1].toDoubleOrNull() ?: return ""
@@ -305,7 +306,6 @@ fun mostExpensive(description: String): String {
             }
 
         }
-
 
     }
     return maxProduct
