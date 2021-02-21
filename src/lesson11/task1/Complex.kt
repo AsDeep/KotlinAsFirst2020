@@ -22,60 +22,70 @@ class Complex(val re: Double, val im: Double) {
      * Конструктор из строки вида x+yi
      */
     companion object {
-        fun getValues(s: String): Pair<Double, Double> {
-            val r = (if (s.startsWith('-')) -1.0 else 1.0) * s.split(
-                s.findLast { it == '+' || it == '-' }.toString()
-            )[0].toDouble()
-            val i = (if (s.findLast { it == '-' } != null) -1.0 else 1.0) * s.split(
-                s.findLast { it == '+' || it == '-' }.toString()
-            )[1].filter { it != 'i' }.toDouble()
 
+        fun getValues(s: String): Pair<Double, Double> {
+            var r = 0.0
+            var i = 1.0
+            val res = Regex("""[+-]?\d+[.]*[\d]*""").findAll(s.replace(" ", ""))
+            val parts = mutableListOf<Double>()
+            for (i in res) {
+                parts.add(i.value.toDoubleOrNull())
+            }
+            if (parts.size == 1 && s.contains("i")) {
+                r = 0.0
+                i = parts[0]
+            } else if (parts.size == 1) {
+                r = parts[0]
+                i = 0.0
+            } else {
+                r = parts[0]
+                i = parts[1]
+            }
             return Pair(r, i)
         }
     }
 
+    constructor(s: String) : this(getValues(s).first, getValues(s).second)
 
-constructor(s: String) : this(getValues(s).first, getValues(s).second)
+    /**
+     * Сложение.
+     */
+    operator fun plus(other: Complex): Complex = Complex(re + other.re, im + other.im)
 
-/**
- * Сложение.
- */
-operator fun plus(other: Complex): Complex = Complex(re + other.re, im + other.im)
+    /**
+     * Смена знака (у обеих частей числа)
+     */
+    operator fun unaryMinus(): Complex = Complex(-re, -im)
 
-/**
- * Смена знака (у обеих частей числа)
- */
-operator fun unaryMinus(): Complex = Complex(-re, -im)
+    /**
+     * Вычитание
+     */
+    operator fun minus(other: Complex): Complex = Complex(re - other.re, im - other.im)
 
-/**
- * Вычитание
- */
-operator fun minus(other: Complex): Complex = Complex(re - other.re, im - other.im)
+    /**
+     * Умножение
+     */
+    operator fun times(other: Complex): Complex =
+        Complex(re * other.re - im * other.im, re * other.im + im * other.re)
 
-/**
- * Умножение
- */
-operator fun times(other: Complex): Complex =
-    Complex(re * other.re - im * other.im, re * other.im + im * other.re)
+    /**
+     * Деление
+     */
+    operator fun div(other: Complex): Complex = Complex(
+        ((re * other.re) + (im * other.im)) / ((other.re * other.re) + (other.im * other.im)),
+        ((other.re * im) - (re * other.im)) / ((other.re * other.re) + (other.im * other.im))
+    )
 
-/**
- * Деление
- */
-operator fun div(other: Complex): Complex = Complex(
-    ((re * other.re) + (im * other.im)) / ((other.re * other.re) + (other.im * other.im)),
-    ((other.re * im) - (re * other.im)) / ((other.re * other.re) + (other.im * other.im))
-)
+    /**
+     * Сравнение на равенство
+     */
+    override fun equals(other: Any?): Boolean {
+        if (other !is Complex) return false
+        return re == other.re && im == other.im
+    }
 
-/**
- * Сравнение на равенство
- */
-override fun equals(other: Any?): Boolean {
-    if (other !is Complex) return false
-    return re == other.re && im == other.im
-}
-
-/**
- * Преобразование в строку
- */
-override fun toString(): String = "$re${if (im >= 0) "+" else ""}${im}i"
+    /**
+     * Преобразование в строку
+     */
+    override fun toString(): String = "$re${if (im >= 0) "+" else ""}${im}i"
 }
