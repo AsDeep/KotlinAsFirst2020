@@ -33,7 +33,7 @@ internal class ComplexTest {
     @Test
     @Tag("4")
     fun times() {
-        assertApproxEquals(Complex("11+2i"), Complex("1+2i").times(Complex("3-4i"), 1e-10))
+        assertApproxEquals(Complex("11+2i"), Complex("1+2i").times(Complex("3-4i")), 1e-10)
     }
 
     @Test
