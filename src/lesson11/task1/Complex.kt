@@ -29,7 +29,7 @@ class Complex(val re: Double, val im: Double) {
             val res = Regex("""[+-]?\d+[.]*[\d]*""").findAll(s.replace(" ", ""))
             val parts = mutableListOf<Double>()
             for (i in res) {
-                parts.add(i.value.toDoubleOrNull())
+                parts.add(i.value.toDoubleOrNull()?: 1.0)
             }
             if (parts.size == 1 && s.contains("i")) {
                 r = 0.0
