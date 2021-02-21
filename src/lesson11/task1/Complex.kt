@@ -31,6 +31,8 @@ class Complex(val re: Double, val im: Double) {
             for (i in res) {
                 parts.add(i.value.toDoubleOrNull() ?: 1.0)
             }
+            if (s == "i") return Pair(0.0, 1.0)
+            if (s == "-i") return Pair(0.0, -1.0)
             if (parts.size == 1 && s.contains("i")) {
                 r = 0.0
                 i = parts[0]
