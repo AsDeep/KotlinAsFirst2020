@@ -26,23 +26,23 @@ class Complex(val re: Double, val im: Double) {
         fun getValues(s: String): Pair<Double, Double> {
             var r = 0.0
             var i = 1.0
-            var strPlus = s.split('+')
-            val strMinus = s.split('-')
-            if (strMinus.size > strPlus.size) {
-                strPlus = strMinus
-                i *= -1.0
+            val res = Regex("""[+-]?\d+[.]*[\d]*""").findAll(s.replace(" ", ""))
+            val parts = mutableListOf<Double>()
+            for (i in res) {
+                parts.add(i.value.toDoubleOrNull() ?: 1.0)
             }
-            if (strPlus.isEmpty()) return Pair(r, 0.0)
-            else if ( strPlus[0].isEmpty()) return Pair(
-                r,
-                strPlus[1].filter { it != 'i' }.toDouble()
-            )
-
-            r = strPlus[0].toDouble()
-            i *= strPlus[1].filter { it != 'i' }.toDouble()
+            if (parts.size == 1 && s.contains("i")) {
+                r = 0.0
+                i = parts[0]
+            } else if (parts.size == 1) {
+                r = parts[0]
+                i = 0.0
+            } else {
+                r = parts[0]
+                i = parts[1]
+            }
             return Pair(r, i)
         }
-
     }
 
     constructor(s: String) : this(getValues(s).first, getValues(s).second)
@@ -87,5 +87,5 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Преобразование в строку
      */
-    override fun toString(): String = "$re${if (im > 0) "+" else ""}${im}i"
+    override fun toString(): String = "$re${if (im >= 0) "+" else ""}${im}i"
 }
