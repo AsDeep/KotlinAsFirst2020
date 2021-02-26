@@ -22,26 +22,15 @@ class Complex(val re: Double, val im: Double) {
      * Конструктор из строки вида x+yi
      */
     companion object {
-
         fun getValues(s: String): Pair<Double, Double> {
-            var r = 0.0
-            var i = 1.0
-            val res = Regex("""[+-]?\d+[.]*[\d]*""").findAll(s.replace(" ", ""))
-            val parts = mutableListOf<Double>()
-            for (i in res) {
-                parts.add(i.value.toDoubleOrNull()?: 1.0)
+            val filter = Regex("""(-?\d+(?:\.\d+)?)?(?:([+-]\d+(?:\.\d+)?)i)?""").matchEntire(s.trim())
+                    ?: throw IllegalArgumentException()
+            val r = filter.groupValues[1].toDoubleOrNull()
+            val i = filter.groupValues[2].toDoubleOrNull()
+            if (r == null && i == null) {
+                throw IllegalArgumentException()
             }
-            if (parts.size == 1 && s.contains("i")) {
-                r = 0.0
-                i = parts[0]
-            } else if (parts.size == 1) {
-                r = parts[0]
-                i = 0.0
-            } else {
-                r = parts[0]
-                i = parts[1]
-            }
-            return Pair(r, i)
+            return Pair(r ?: 0.0, i ?: 0.0)
         }
     }
 
