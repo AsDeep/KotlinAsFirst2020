@@ -20,7 +20,7 @@ package lesson12.task1
 class PhoneBook {
 
     var personMap = mutableMapOf<String, Person>()
-    var phoneToNameMap = hashMapOf<String, String>()
+    var phoneToNameMap = mutableMapOf<String, String>()
 
     companion object {
         fun checkPhone(p: String): Boolean {
@@ -32,18 +32,24 @@ class PhoneBook {
     class Person(var name: String, vararg numbers: String) {
 
         init {
-            name = Regex("""[a-zA-Zа-яА-Я]+ [a-zA-Zа-яА-Я]+""").matchEntire(name.trim())?.toString()
+            name = Regex("""[a-zA-Zа-яА-Я]+ [a-zA-Zа-яА-Я]+""").matchEntire(name.trim())?.groupValues?.get(0)
                 ?: throw IllegalArgumentException()
-
         }
 
-        val numList = numbers.toMutableList()
+        val numList = numbers.toMutableSet()
 
         override fun equals(other: Any?): Boolean {
+            if (this === other) return true
             if (other !is Person) {
                 return false
             }
             return other.name == name && other.numList == numList
+        }
+
+        override fun hashCode(): Int {
+            var result = name.hashCode()
+            result = 31 * result + numList.hashCode()
+            return result
         }
 
     }
@@ -68,10 +74,13 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun removeHuman(name: String): Boolean {
-        return if (name in personMap.keys) {
+        if (name in personMap.keys) {
+            for (num in personMap[name]?.numList ?: return false) {
+                phoneToNameMap.remove(num)
+            }
             personMap.remove(name)
-            true
-        } else false
+            return true
+        } else return false
     }
 
     /**
@@ -82,7 +91,7 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        if (checkPhone(phone) && name in personMap.keys && phone !in phoneToNameMap.keys) {
+        if (checkPhone(phone) && phone !in phoneToNameMap.keys) {
             personMap[name]?.numList?.add(phone) ?: return false
             phoneToNameMap.put(phone, name)
             return true
@@ -98,7 +107,7 @@ class PhoneBook {
      */
     fun removePhone(name: String, phone: String): Boolean {
         return if (name in personMap.keys && phone in phoneToNameMap.keys) {
-            personMap.remove(name)
+            personMap[name]?.numList?.remove(phone) ?: return false
             phoneToNameMap.remove(phone)
             true
         } else false
@@ -110,7 +119,7 @@ class PhoneBook {
      */
     fun phones(name: String): Set<String> {
         if (name in personMap.keys) {
-            return personMap[name]?.numList?.toSet() ?: throw IllegalArgumentException()
+            return personMap[name]?.numList?.toSet() ?: return emptySet()
         }
         return emptySet()
     }
@@ -119,11 +128,8 @@ class PhoneBook {
      * Вернуть имя человека по заданному номеру телефона.
      * Если такого номера нет в книге, вернуть null.
      */
-    fun humanByPhone(phone: String): String? {
-        return if (phone in phoneToNameMap.keys) {
-            phoneToNameMap[phone]
-        } else null
-    }
+    fun humanByPhone(phone: String): String? = phoneToNameMap[phone]
+
 
     /**
      * Две телефонные книги равны, если в них хранится одинаковый набор людей,
@@ -131,14 +137,15 @@ class PhoneBook {
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
     override fun equals(other: Any?): Boolean {
+        if (this === other) return true
         if (other !is PhoneBook) {
             return false
         }
-        return (other.personMap.keys == personMap.keys) && (other.phoneToNameMap == phoneToNameMap)
+        return personMap == other.personMap
     }
 
     override fun hashCode(): Int {
-        var result = personMap.keys.hashCode()
+        var result = personMap.hashCode()
         result = 31 * result + phoneToNameMap.hashCode()
         return result
     }
