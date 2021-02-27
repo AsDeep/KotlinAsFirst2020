@@ -138,7 +138,7 @@ class PhoneBook {
     }
 
     override fun hashCode(): Int {
-        var result = personMap.hashCode()
+        var result = personMap.keys.hashCode()
         result = 31 * result + phoneToNameMap.hashCode()
         return result
     }
