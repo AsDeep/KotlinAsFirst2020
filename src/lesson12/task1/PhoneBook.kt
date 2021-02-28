@@ -74,13 +74,11 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun removeHuman(name: String): Boolean {
-        if (name in personMap.keys) {
-            for (num in personMap[name]?.numList ?: return false) {
-                phoneToNameMap.remove(num)
-            }
-            personMap.remove(name)
-            return true
-        } else return false
+        for (num in personMap[name]?.numList ?: return false) {
+            phoneToNameMap.remove(num)
+        }
+        personMap.remove(name)
+        return true
     }
 
     /**
@@ -106,23 +104,16 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        return if (name in personMap.keys && phone in phoneToNameMap.keys) {
-            personMap[name]?.numList?.remove(phone) ?: return false
-            phoneToNameMap.remove(phone)
-            true
-        } else false
+        personMap[name]?.numList?.remove(phone) ?: return false
+        phoneToNameMap.remove(phone) ?: return false
+        return true
     }
 
     /**
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> {
-        if (name in personMap.keys) {
-            return personMap[name]?.numList?.toSet() ?: return emptySet()
-        }
-        return emptySet()
-    }
+    fun phones(name: String): Set<String> = personMap[name]?.numList ?: emptySet()
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
