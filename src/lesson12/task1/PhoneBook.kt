@@ -75,7 +75,7 @@ class PhoneBook {
      */
     fun removeHuman(name: String): Boolean {
         for (num in personMap[name]?.numList ?: return false) {
-            phoneToNameMap.remove(num)
+            phoneToNameMap.remove(num) ?: return false
         }
         personMap.remove(name)
         return true
