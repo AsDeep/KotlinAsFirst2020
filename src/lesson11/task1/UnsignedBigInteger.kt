@@ -2,6 +2,7 @@ package lesson11.task1
 
 import kotlin.math.*
 import kotlin.text.*
+
 /**
  * Класс "беззнаковое большое целое число".
  *
@@ -72,14 +73,19 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         if (this < other) throw ArithmeticException()
         val result = UnsignedBigInteger(0)
         result.digitList = digitList
-        println(result.digitList.size)
 
         for (i in 0 until result.digitList.size) {
-            result.digitList[i] -= other.digitList[i]
+            try {
+                result.digitList[i] -= other.digitList[i]
+            } catch (e: java.lang.IndexOutOfBoundsException) {
+                break
+            }
+
             if (result.digitList[i] < 0) {
                 result.digitList[i + 1] -= 1
                 result.digitList[i] += 10
             }
+
         }
         return result
 
@@ -151,7 +157,6 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         if (a > b) return a
         return b
     }
-
 
 
 }
