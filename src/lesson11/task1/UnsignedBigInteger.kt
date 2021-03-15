@@ -124,8 +124,8 @@ class UnsignedBigInteger : Comparable<UnsignedBigInteger> {
         } else {
             var i = digitList.size - 1
             while (digitList[i].compareTo(other.digitList[i]) == 0) {
-                i -= 1
                 if (i == 0) break
+                i -= 1
             }
             return digitList[i].compareTo(other.digitList[i])
 
