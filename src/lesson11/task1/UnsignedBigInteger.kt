@@ -1,5 +1,7 @@
 package lesson11.task1
 
+import kotlin.math.*
+import kotlin.text.*
 /**
  * Класс "беззнаковое большое целое число".
  *
